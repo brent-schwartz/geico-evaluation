@@ -38,48 +38,47 @@ public class RoadsideAssistanceServiceImplTest {
     roadsideAssistanceServiceImpl = new RoadsideAssistanceServiceImpl(mockGeolocator, mockDao);
   }
 
-  @Test
-  public void testUpdateAssistantLocation() {
-    Assistant assistant = new Assistant();
-    Geolocation geolocation = new Geolocation();
-    geolocation.setLatitude(40);
-    geolocation.setLongitude(50);
+  @Nested
+  public class UpdateAssistantLocationTests {
+    @Test
+    public void testUpdateAssistantLocation() {
+      Assistant assistant = new Assistant();
+      Geolocation geolocation = new Geolocation(40, 50);
 
-    roadsideAssistanceServiceImpl.updateAssistantLocation(assistant, geolocation);
+      roadsideAssistanceServiceImpl.updateAssistantLocation(assistant, geolocation);
 
-    assertEquals(geolocation, assistant.getCurrentLocation());
+      assertEquals(geolocation, assistant.getCurrentLocation());
 
-    verify(mockDao).updateAssistant(assistant);
+      verify(mockDao).updateAssistant(assistant);
+    }
   }
 
-  @Test
-  public void testReleaseAssistant() {
-    Customer customer = new Customer();
-    Assistant assistant = new Assistant();
+  @Nested
+  public class ReleaseAssistantTests {
+    @Test
+    public void testReleaseAssistant() {
+      Customer customer = new Customer();
+      Assistant assistant = new Assistant();
+      assistant.setCustomer(customer);
 
-    roadsideAssistanceServiceImpl.releaseAssistant(customer, assistant);
+      roadsideAssistanceServiceImpl.releaseAssistant(customer, assistant);
 
-    assertFalse(assistant.getCustomer().isPresent());
+      assertFalse(assistant.getCustomer().isPresent());
+    }
   }
 
   @Nested
   public class FindNearestAssistantsTests {
     private final Assistant assistant = new Assistant();
     private final List<Assistant> assistantList = new ArrayList<>();
-    private final Geolocation geolocation = new Geolocation();
-    private final Geolocation geolocation2 = new Geolocation();
-    private final Geolocation geolocation3 = new Geolocation();
+    private final Geolocation geolocation = new Geolocation(101, 100);
+    private final Geolocation geolocation2 = new Geolocation(31, 30);
+    private final Geolocation geolocation3 = new Geolocation(41, 40);
     private final int regionId = 50;
 
     @BeforeEach
     public void setUpForFindNearestAssitantsTests() {
       assistantList.clear();
-      geolocation.setLongitude(100);
-      geolocation.setLatitude(101);
-      geolocation2.setLongitude(30);
-      geolocation2.setLatitude(31);
-      geolocation3.setLongitude(40);
-      geolocation3.setLatitude(41);
       assistant.setName("James Smith");
       assistant.setCurrentLocation(geolocation);
       when(mockGeolocator.getRegionId(any())).thenReturn(regionId);
@@ -159,7 +158,7 @@ public class RoadsideAssistanceServiceImplTest {
     public void testReserveAssistant() {
       Customer customer = new Customer();
       customer.setName("Jane Doe");
-      Geolocation geolocation = new Geolocation();
+      Geolocation geolocation = new Geolocation(100, 102);
       Assistant assistant = new Assistant();
       assistant.setName("James Smith");
       List<Assistant> assistantList = new ArrayList<>();
@@ -185,7 +184,7 @@ public class RoadsideAssistanceServiceImplTest {
     @Test
     public void testReserveAssistantNoneFound() {
       Customer customer = new Customer();
-      Geolocation geolocation = new Geolocation();
+      Geolocation geolocation = new Geolocation(100, 102);
       List<Assistant> assistantList = new ArrayList<>();
       int regionId = 50;
 

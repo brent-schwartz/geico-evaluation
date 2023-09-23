@@ -34,6 +34,14 @@ public class Assistant {
   }
 
   /**
+   * Gets the unique ID.
+   * @return the unique ID
+   */
+  public UUID getId() {
+    return this.id;
+  }
+
+  /**
    * Gets the name.
    * @return the name
    */

@@ -4,9 +4,20 @@ package com.schwartz.geico.roadside.domain;
  * Represents a geographic location.
  */
 public class Geolocation {
-  private double latitude;
+  private final double latitude;
 
-  private double longitude;
+  private final double longitude;
+
+  /**
+   * Creates a new instance of the Geolocation class.
+   *
+   * @param latitude the latitude
+   * @param longitude the longitude
+   */
+  public Geolocation(double latitude, double longitude) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
 
   /**
    * Gets the latitude.
@@ -22,22 +33,6 @@ public class Geolocation {
    */
   public double getLongitude() {
     return this.longitude;
-  }
-
-  /**
-   * Sets the latitude.
-   * @param latitude the latitude
-   */
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
-  /**
-   * Sets the longitude.
-   * @param longitude the longitude
-   */
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
   }
 
   /**
