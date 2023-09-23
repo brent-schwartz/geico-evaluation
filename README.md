@@ -2,9 +2,14 @@
 This is an implementation of the GEICO evaulation for the Emergency Roadside Assistance Service.
 
 ## Installation
-Build with Java 17
+1. Clone the repository with `git clone https://github.com/brent-schwartz/geico-evaluation`
+2. Java 17 is the specified JDK version.
+3. Open the project in an IDE, such as IntelliJ IDEA.
+4. Run `mvn clean install` to install dependencies and build the project.
+5. Alternatively, run `mvn clean install` from the command line.  This will require installation of Maven.
 
 ## Usage
+Run the tests with `mvn test`, either from an IDE or from the command line.
 
 ## Assumptions
 
