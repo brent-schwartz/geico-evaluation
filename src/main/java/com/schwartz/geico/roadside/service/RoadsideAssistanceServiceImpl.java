@@ -8,16 +8,27 @@ import com.schwartz.geico.roadside.geolocator.Geolocator;
 
 import java.util.*;
 
+/**
+ * Implements the RoadsideAssistanceService interface.  Provides roadside assistance services to GEICO customers.
+ */
 public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService {
   private final Geolocator geolocator;
 
   private final RoadsideAssistanceDao roadsideAssistanceDao;
 
+  /**
+   * Creates a new instance of the RoadsideAssistanceServiceImpl class.
+   * @param geolocator the geolocator to use
+   * @param roadsideAssistanceDao the roadside assistance DAO to use
+   */
   public RoadsideAssistanceServiceImpl(Geolocator geolocator, RoadsideAssistanceDao roadsideAssistanceDao) {
     this.geolocator = geolocator;
     this.roadsideAssistanceDao = roadsideAssistanceDao;
   }
 
+  /**
+   * @see RoadsideAssistanceService#updateAssistantLocation(Assistant, Geolocation)
+   */
   @Override
   public void updateAssistantLocation(Assistant assistant, Geolocation assistantLocation) {
     // typically the assistant parameter would not be modified and instead an update method such as this would return a new instance of the assistant, with the new location
@@ -26,6 +37,9 @@ public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService 
     this.roadsideAssistanceDao.updateAssistant(assistant);
   }
 
+  /**
+   * @see RoadsideAssistanceService#findNearestAssistants(Geolocation, int)
+   */
   @Override
   public SortedSet<Assistant> findNearestAssistants(Geolocation geolocation, int limit) {
     int regionId = this.geolocator.getRegionId(geolocation);
@@ -43,6 +57,9 @@ public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService 
     return sortedSet;
   }
 
+  /**
+   * @see RoadsideAssistanceService#reserveAssistant(Customer, Geolocation)
+   */
   @Override
   public Optional<Assistant> reserveAssistant(Customer customer, Geolocation customerLocation) {
     return findNearestAssistants(customerLocation, 1).stream().findFirst().map(assistant -> {
@@ -51,6 +68,9 @@ public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService 
     });
   }
 
+  /**
+   * @see RoadsideAssistanceService#releaseAssistant(Customer, Assistant)
+   */
   @Override
   public void releaseAssistant(Customer customer, Assistant assistant) {
     // typically the assistant parameter would not be modified and instead an update method such as this would return a new instance of the assistant, with the null customer
