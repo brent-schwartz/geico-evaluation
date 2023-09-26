@@ -1,5 +1,5 @@
 # geico-evaluation
-This is an implementation of the GEICO evaulation for the Emergency Roadside Assistance Service.
+This is an implementation of the GEICO evaluation for the Emergency Roadside Assistance Service.
 
 ## Installation
 1. Clone the repository with `git clone https://github.com/brent-schwartz/geico-evaluation.git`
