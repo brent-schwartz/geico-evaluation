@@ -13,7 +13,7 @@ Run the tests with `mvn test`, either from an IDE or from the command line.
 
 ## Assumptions
 
-- Real-world DAO implementation will access a persistent data store, such as a relatonal database.
+- Real-world DAO implementation will access a persistent data store, such as a relational database.
 - Real-world Geolocator implementation will use a third-party service such as the Google Maps API to determine the distance between two points.
 - Real-world application will be a Spring application with REST endpoints which call the service layer.  The current implementation is set up to easily use Spring dependency injection
 and Spring Data JPA to access the data store.
