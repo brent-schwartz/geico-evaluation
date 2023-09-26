@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface RoadsideAssistanceDao {
   /**
-   * Finds all active assistants by region ID.
+   * Finds all active assistants by region ID who have no assigned customer.
    * @param regionId the region ID
-   * @return the list of active assistants in the region
+   * @return the list of active assistants in the region who have no assigned customer
    */
-  List<Assistant> findActiveAssistantsByRegionId(int regionId);
+  List<Assistant> findActiveAssistantsWithNoCustomerByRegionId(int regionId);
 
   /**
    * Updates an assistant.

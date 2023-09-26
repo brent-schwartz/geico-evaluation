@@ -77,12 +77,12 @@ public class RoadsideAssistanceServiceImplTest {
     private final int regionId = 50;
 
     @BeforeEach
-    public void setUpForFindNearestAssitantsTests() {
+    public void setUpForFindNearestAssistantsTests() {
       assistantList.clear();
-      assistant.setName("James Smith");
+      assistant.setName("Super Man");
       assistant.setCurrentLocation(geolocation);
       when(mockGeolocator.getRegionId(any())).thenReturn(regionId);
-      when(mockDao.findActiveAssistantsByRegionId(anyInt())).thenReturn(assistantList);
+      when(mockDao.findActiveAssistantsWithNoCustomerByRegionId(anyInt())).thenReturn(assistantList);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class RoadsideAssistanceServiceImplTest {
       assertEquals(assistant2, nearestAssistants.toArray()[1]);
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
     }
 
     @Test
@@ -119,7 +119,7 @@ public class RoadsideAssistanceServiceImplTest {
       assertEquals(assistant, nearestAssistants.first());
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class RoadsideAssistanceServiceImplTest {
       assertEquals(assistant2, nearestAssistants.toArray()[1]);
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class RoadsideAssistanceServiceImplTest {
       assertEquals(0, nearestAssistants.size());
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
     }
 
   }
@@ -157,17 +157,17 @@ public class RoadsideAssistanceServiceImplTest {
     @Test
     public void testReserveAssistant() {
       Customer customer = new Customer();
-      customer.setName("Jane Doe");
+      customer.setName("Charles Xavier");
       Geolocation geolocation = new Geolocation(100, 102);
       Assistant assistant = new Assistant();
-      assistant.setName("James Smith");
+      assistant.setName("Jean Grey");
       List<Assistant> assistantList = new ArrayList<>();
       assistantList.add(assistant);
       int regionId = 50;
 
       when(mockGeolocator.getRegionId(any())).thenReturn(regionId);
       when(mockGeolocator.getDistance(any(), any())).thenReturn(1.2);
-      when(mockDao.findActiveAssistantsByRegionId(anyInt())).thenReturn(assistantList);
+      when(mockDao.findActiveAssistantsWithNoCustomerByRegionId(anyInt())).thenReturn(assistantList);
       when(mockDao.updateAssistant(any())).thenReturn(assistant);
 
       Optional<Assistant> reservedAssistant = roadsideAssistanceServiceImpl.reserveAssistant(customer, geolocation);
@@ -177,7 +177,7 @@ public class RoadsideAssistanceServiceImplTest {
       assertEquals(customer, reservedAssistant.get().getCustomer().get());
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
       verify(mockDao).updateAssistant(assistant);
     }
 
@@ -189,13 +189,13 @@ public class RoadsideAssistanceServiceImplTest {
       int regionId = 50;
 
       when(mockGeolocator.getRegionId(any())).thenReturn(regionId);
-      when(mockDao.findActiveAssistantsByRegionId(anyInt())).thenReturn(assistantList);
+      when(mockDao.findActiveAssistantsWithNoCustomerByRegionId(anyInt())).thenReturn(assistantList);
 
       Optional<Assistant> reservedAssistant = roadsideAssistanceServiceImpl.reserveAssistant(customer, geolocation);
       assertFalse(reservedAssistant.isPresent());
 
       verify(mockGeolocator).getRegionId(geolocation);
-      verify(mockDao).findActiveAssistantsByRegionId(regionId);
+      verify(mockDao).findActiveAssistantsWithNoCustomerByRegionId(regionId);
       verify(mockDao, never()).updateAssistant(any());
     }
   }

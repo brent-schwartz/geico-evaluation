@@ -42,8 +42,10 @@ public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService 
    */
   @Override
   public SortedSet<Assistant> findNearestAssistants(Geolocation geolocation, int limit) {
+    // Region ID concept was introduced to separate lists of Assistants by region or service area.
+    // This is to avoid having to iterate through all Assistants to find the closest one and will more closely resemble a real-world implementation where Assistants are grouped by region.
     int regionId = this.geolocator.getRegionId(geolocation);
-    List<Assistant> viableAssistants = this.roadsideAssistanceDao.findActiveAssistantsByRegionId(regionId);
+    List<Assistant> viableAssistants = this.roadsideAssistanceDao.findActiveAssistantsWithNoCustomerByRegionId(regionId);
 
     Comparator<Assistant> compareByDistance = (o1, o2) -> {
       double distance1 = this.geolocator.getDistance(geolocation, o1.getCurrentLocation());
@@ -62,9 +64,12 @@ public class RoadsideAssistanceServiceImpl implements RoadsideAssistanceService 
    */
   @Override
   public Optional<Assistant> reserveAssistant(Customer customer, Geolocation customerLocation) {
-    return findNearestAssistants(customerLocation, 1).stream().findFirst().map(assistant -> {
-      assistant.setCustomer(customer);
-      return this.roadsideAssistanceDao.updateAssistant(assistant);
+    // requirements state to return 5 nearest service trucks
+    return findNearestAssistants(customerLocation, 5).stream()
+      .findFirst()
+      .map(assistant -> {
+        assistant.setCustomer(customer);
+        return this.roadsideAssistanceDao.updateAssistant(assistant);
     });
   }
 

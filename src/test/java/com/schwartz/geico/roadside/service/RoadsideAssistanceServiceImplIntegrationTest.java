@@ -14,14 +14,15 @@ import java.util.SortedSet;
 
 /**
  * Integration tests for the RoadsideAssistanceServiceImpl class, using sample DAO and sample Geolocator.
+ * This provides a simulation of how the application can run using its current implementation.
  */
-public class RoadsideAssistanceServiceImplIntegarationTest {
+public class RoadsideAssistanceServiceImplIntegrationTest {
   @Test
   public void testRoadsideAssistanceServiceImpl() {
     SampleRoadsideAssistanceDaoImpl dao = new SampleRoadsideAssistanceDaoImpl();
     RoadsideAssistanceServiceImpl service = new RoadsideAssistanceServiceImpl(new SampleGeolocatorImpl(), dao);
 
-    List<Assistant> assistants = dao.findActiveAssistantsByRegionId(15);
+    List<Assistant> assistants = dao.findActiveAssistantsWithNoCustomerByRegionId(15);
     assertNotNull(assistants);
     assertFalse(assistants.isEmpty());
     Assistant assistant = assistants.get(0);
@@ -36,7 +37,7 @@ public class RoadsideAssistanceServiceImplIntegarationTest {
     assertEquals(assistant, sortedAssistants.first());
 
     Customer customer = new Customer();
-    customer.setName("Joe Customer");
+    customer.setName("Scarlet Witch");
     customer.setPolicyNumber("123456789");
     customer.setCurrentLocation(new Geolocation(1, 3));
 

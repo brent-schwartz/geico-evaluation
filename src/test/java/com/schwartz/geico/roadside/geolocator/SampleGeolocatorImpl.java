@@ -5,7 +5,7 @@ import com.schwartz.geico.roadside.domain.Geolocation;
 /**
  * Sample implementation of the Geolocator interface.
  */
-public class SampleGeolocatorImpl implements Geolocator{
+public class SampleGeolocatorImpl implements Geolocator {
   /**
    * @see Geolocator#getDistance(Geolocation, Geolocation)
    */

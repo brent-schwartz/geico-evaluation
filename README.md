@@ -21,3 +21,4 @@ and Spring Data JPA to access the data store.
 - Region ID concept was introduced to separate lists of Assistants by region or service area. 
 This is to avoid having to iterate through all Assistants to find the closest one and will more closely resemble
 a real-world implementation where Assistants are grouped by region.
+- Only active (on-duty) and available (no current customer) Assistants are included when finding and reserving the nearest Assistant.
